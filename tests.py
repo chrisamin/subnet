@@ -24,7 +24,7 @@ class SubnetTestCase(TestCase):
             self.assertEquals(output_value, actual_value)
 
 
-class TestCase1(SubnetTestCase):
+class PrivateTestCase1(SubnetTestCase):
     """
     TestCase for 192.168.0.0/16.
     """
@@ -43,7 +43,7 @@ class TestCase1(SubnetTestCase):
     }
 
 
-class TestCase2(SubnetTestCase):
+class PrivateTestCase2(SubnetTestCase):
     """
     TestCase for 172.16.0.0/12.
     """
@@ -62,7 +62,7 @@ class TestCase2(SubnetTestCase):
     }
 
 
-class TestCase3(SubnetTestCase):
+class PrivateTestCase3(SubnetTestCase):
     """
     TestCase for 10.0.0.0/8
     """
