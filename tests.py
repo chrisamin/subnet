@@ -79,3 +79,24 @@ class TestCase3(SubnetTestCase):
         "num_hosts": 16777214,
         "address": "",
     }
+
+
+class DNSTestCase(SubnetTestCase):
+    """
+    TestCase for forward DNS resolution.
+    """
+    inputs = {
+        "hostname": "blackwall.moonraptor.com",
+    }
+
+    outputs = {
+        "address": "109.74.206.21",
+    }
+
+
+class ReverseDNSTestCase(SubnetTestCase):
+    """
+    TestCase for reverse DNS resolution.
+    """
+    outputs = DNSTestCase.inputs
+    inputs = DNSTestCase.outputs
