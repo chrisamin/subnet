@@ -6,6 +6,7 @@ from __future__ import absolute_import
 import socket
 
 from django import forms
+from django.utils import simplejson, safestring
 
 
 class SubnetForm(forms.Form):
@@ -26,6 +27,13 @@ class SubnetForm(forms.Form):
     last_host.widget.attrs["readonly"] = "readonly"
     broadcast = forms.CharField(required=False)
     broadcast.widget.attrs["readonly"] = "readonly"
+
+    exclusive_inputs = [
+        ["mask", "cidr"],
+        ["address", "network", "hostname"],
+    ]
+    exclusive_inputs_json = safestring.mark_safe(simplejson.dumps(
+        exclusive_inputs))
 
     def clean(self):
         """
