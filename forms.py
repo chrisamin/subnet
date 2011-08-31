@@ -1,6 +1,3 @@
-"""
-Module containing the form(s) for the subnet calculator.
-"""
 from __future__ import absolute_import
 
 import socket

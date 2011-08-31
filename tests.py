@@ -1,6 +1,3 @@
-"""
-Module containing various TestCases which test certain input/output pairings.
-"""
 from __future__ import absolute_import
 
 from django.test import TestCase
