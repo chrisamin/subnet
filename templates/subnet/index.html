@@ -1,0 +1,58 @@
+{% extends "subnet/html5.html" %}
+
+{% block title %}Subnet Calculator{% endblock %}
+
+{% block script %}
+    var exclusive_inputs = [
+        ["mask", "cidr"],
+        ["address", "network", "hostname"],
+    ];
+
+    function modify_other_inputs(el, modify_function) {
+        var el = $(el);
+        var this_name = el.attr("name");
+        for (inputs_i in exclusive_inputs) {
+            var inputs = exclusive_inputs[inputs_i];
+            if (inputs.indexOf(this_name) > -1) {
+                for (input_i in inputs) {
+                    var input = inputs[input_i];
+                    if (this_name != input) {
+                        var other_el = $("input[name=" + input + "]");
+                        modify_function(other_el);
+                    }
+                }
+            }
+        }
+    }
+
+    $(function() {
+        $("input").focusout(function() {
+            $("input[temporarilyReadonly]").removeAttr("readonly");
+        });
+
+        $("input").focus(function() {
+            modify_other_inputs(this, function(other_el) {
+                other_el.attr("readonly", "readonly");
+                other_el.attr("temporarilyReadonly", "true");
+            });
+        });
+
+        $("input").change(function() {
+            modify_other_inputs(this, function(other_el) {
+                other_el.val("");
+            });
+        });
+    });
+
+{% endblock %}
+
+{% block body %}
+    <h1>Subnet Calculator</h1>
+    <h2>IPv4</h2>
+    <form action="" method="POST">
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input name="{{ form.prefix }}" type="submit" value="Re-calculate"/>
+    </form>
+{% endblock body %}
