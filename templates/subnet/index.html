@@ -3,54 +3,7 @@
 {% block title %}Subnet Calculator{% endblock %}
 
 {% block script %}
-    var exclusive_inputs = {{ form.exclusive_inputs_json }}; 
-
-    function modify_other_inputs(el, modify_function) {
-        /*
-        Given a DOM or jQuery element `el`, apply function `modify_function`
-        to all other elements in `el`'s group within exclusive_inputs.
-         */
-        var el = $(el);
-        var this_name = el.attr("name");
-        for (inputs_i in exclusive_inputs) {
-            var inputs = exclusive_inputs[inputs_i];
-            if (inputs.indexOf(this_name) > -1) {
-                for (input_i in inputs) {
-                    var input = inputs[input_i];
-                    if (this_name != input) {
-                        var other_el = $("input[name=" + input + "]");
-                        modify_function(other_el);
-                    }
-                }
-            }
-        }
-    }
-
-    $(function() {
-        // Make any mutually exclusive fields readonly while the user is
-        // focusing on a particular input.
-        $("input").focus(function() {
-            modify_other_inputs(this, function(other_el) {
-                other_el.attr("readonly", "readonly");
-                other_el.attr("temporarilyReadonly", "true");
-            });
-        });
-
-        // Remove temporary readonly attributes when the user is done editing
-        // an exclusive field.
-        $("input").focusout(function() {
-            $("input[temporarilyReadonly]").removeAttr("readonly");
-        });
-
-        // Clear mutually exclusive fields when the user changes a particular
-        // input.
-        $("input").change(function() {
-            modify_other_inputs(this, function(other_el) {
-                other_el.val("");
-            });
-        });
-    });
-
+    {% include "subnet/index.js" %}
 {% endblock %}
 
 {% block body %}
