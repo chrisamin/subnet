@@ -41,7 +41,8 @@ class SubnetForm(forms.Form):
         normalization, but also fills in the gaps in network information based
         on the form's data.
         """
-        return self.get_network_information()
+        self.data = self.get_network_information()
+        return self.data
 
     @staticmethod
     def human_to_int(address):
