@@ -28,6 +28,19 @@ function modify_other_inputs(el, modify_function) {
     }
 }
 
+function update_form(form_el) {
+    /*
+    Given a form element, update with a new set of network information.
+     */
+    var url = "{{ request.path }}json/";
+    var input = $(form_el).serialize();;
+    var json = $.getJSON(url, input, function(data, textStatus, jqXHR) {
+        for (key in data) {
+            $("input[name=" + key + "]").val(data[key]);
+        }
+    });
+}
+
 $(function() {
     // Make any mutually exclusive fields readonly while the user is
     // focusing on a particular input.
@@ -47,8 +60,18 @@ $(function() {
     // Clear mutually exclusive fields when the user changes a particular
     // input.
     $("input").change(function() {
-        modify_other_inputs(this, function(other_el) {
-            other_el.val("");
-        });
+        if ($(this).val()) {
+            modify_other_inputs(this, function(other_el) {
+                other_el.val("");
+            });
+        }
+        update_form($(this).closest("form"));
     });
+
+    $("form").submit(function() {
+        update_form(this);
+        return false;
+    });
+
+    $("input[type=submit]").hide();
 });
