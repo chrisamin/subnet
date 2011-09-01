@@ -16,7 +16,7 @@ function modify_other_inputs(el, modify_function) {
     var this_name = el.attr("name");
     for (inputs_i in exclusive_inputs) {
         var inputs = exclusive_inputs[inputs_i];
-        if (inputs.indexOf(this_name) > -1) {
+        if ($.inArray(this_name, inputs) != -1) {
             for (input_i in inputs) {
                 var input = inputs[input_i];
                 if (this_name != input) {

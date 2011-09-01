@@ -2,3 +2,7 @@ div#container {
     width: 25em;
     margin: 1ex auto 1ex auto;
 }
+
+input[readonly] {
+    background-color: #ECEAE9\9;
+}
