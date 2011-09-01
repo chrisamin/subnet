@@ -6,13 +6,20 @@
     {% include "subnet/index.js" %}
 {% endblock %}
 
+{% block style %}
+    {% include "subnet/index.css" %}
+{% endblock %}
+
 {% block body %}
-    <h1>Subnet Calculator</h1>
-    <h2>IPv4</h2>
-    <form action="" method="POST">
-        <table>
-            {{ form.as_table }}
-        </table>
-        <input name="{{ form.prefix }}" type="submit" value="Re-calculate"/>
-    </form>
+    <div id="container">
+        <h1>Subnet Calculator</h1>
+        <hr/>
+        <h2>IPv4</h2>
+        <form action="" method="POST">
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input name="{{ form.prefix }}" type="submit" value="Re-calculate"/>
+        </form>
+    </div>
 {% endblock body %}
