@@ -12,6 +12,8 @@ class SubnetForm(forms.Form):
     calculation logic.
     """
     address = forms.IPAddressField(required=False)
+    prefix_6to4 = forms.CharField(required=False, label="6to4 prefix")
+    prefix_6to4.widget.attrs["readonly"] = "readonly"
     hostname = forms.CharField(required=False)
     mask = forms.IPAddressField(required=False, label="Subnet (Mask)")
     cidr = forms.IntegerField(required=False, label="Subnet (CIDR)")
@@ -84,6 +86,12 @@ class SubnetForm(forms.Form):
             return ""
         return 2 ** (32 - cidr) - 2
 
+    def get_6to4_prefix(self, address):
+        if not address:
+            return ""
+        parts = (int(part) for part in self.int_to_human(address).split("."))
+        return "2002:%x%x:%x%x::/48" % tuple(parts)
+
     def get_network_information(self):
         """
         Return a dict containing the most comprehensive possible set of
@@ -110,6 +118,8 @@ class SubnetForm(forms.Form):
             address = self.human_to_int(address)
         else:
             hostname = ""
+
+        prefix_6to4 = self.get_6to4_prefix(address)
 
         if isinstance(cidr, int):
             # Force CIDR number to be between 0 and 30, inclusive.
@@ -139,6 +149,7 @@ class SubnetForm(forms.Form):
 
         return ({
             "address": self.int_to_human(address),
+            "prefix_6to4": prefix_6to4,
             "broadcast": self.int_to_human(broadcast),
             "cidr": cidr,
             "first_host": self.int_to_human(first_host),
